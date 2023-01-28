@@ -4,39 +4,39 @@ DROP DATABASE IF EXISTS SpotifyClone;
   CREATE DATABASE IF NOT EXISTS SpotifyClone;
 
 	CREATE TABLE SpotifyClone.Artista(
-      id INT PRIMARY KEY auto_increment,
+      id_artista INT PRIMARY KEY auto_increment,
       nome_artista VARCHAR(50) NOT NULL
   ) engine = InnoDB;
 
 	CREATE TABLE SpotifyClone.Plano(
-      id INT PRIMARY KEY auto_increment,
+      id_plano INT PRIMARY KEY auto_increment,
       nome_plano VARCHAR(50) NOT NULL,
       valor_plano DOUBLE NOT NULL
   ) engine = InnoDB;
 
   CREATE TABLE SpotifyClone.Album(
-      id INT PRIMARY KEY auto_increment,
+      id_album INT PRIMARY KEY auto_increment,
       nome_album VARCHAR(50) NOT NULL,
       id_artista INT NOT NULL,
-      FOREIGN KEY(id_artista) REFERENCES Artista(id),
+      FOREIGN KEY(id_artista) REFERENCES Artista(id_artista),
       ano_lancamento INT NOT NULL
   ) engine = InnoDB;
   
 	CREATE TABLE SpotifyClone.Cancoes(
-      id INT PRIMARY KEY auto_increment,
+      id_cancoes INT PRIMARY KEY auto_increment,
       nome_cancao VARCHAR(50) NOT NULL,
       duracao_segundos INT NOT NULL,
       id_album INT NOT NULL,
-      FOREIGN KEY(id_album) REFERENCES Album(id)
+      FOREIGN KEY(id_album) REFERENCES Album(id_album)
   ) engine = InnoDB;
   
   CREATE TABLE SpotifyClone.Perfil_do_usuario(
-      id INT PRIMARY KEY auto_increment,
+      id_usuario INT PRIMARY KEY auto_increment,
       nome_usuario VARCHAR(50) NOT NULL,
       idade INT NOT NULL,
       data_assinatura DATE NOT NULL,
       id_plano INT NOT NULL,
-      FOREIGN KEY(id_plano) REFERENCES Plano(id)
+      FOREIGN KEY(id_plano) REFERENCES Plano(id_plano)
   ) engine = InnoDB;
   
   CREATE TABLE SpotifyClone.Historico_de_reproducoes(
@@ -45,19 +45,19 @@ DROP DATABASE IF EXISTS SpotifyClone;
       data_reproducao DATETIME NOT NULL,
       id_usuario INT NOT NULL,
       CONSTRAINT PRIMARY KEY(id_usuario, cancoes_reproduzidas),
-      FOREIGN KEY(cancoes_reproduzidas) REFERENCES Cancoes(id),
-      FOREIGN KEY(id_usuario) REFERENCES Perfil_do_usuario(id)
+      FOREIGN KEY(cancoes_reproduzidas) REFERENCES Cancoes(id_cancoes),
+      FOREIGN KEY(id_usuario) REFERENCES Perfil_do_usuario(id_usuario)
   ) engine = InnoDB;
 
 	CREATE TABLE SpotifyClone.Seguindo(
       id_usuario INT NOT NULL,
       seguindo_artistas INT,
       CONSTRAINT PRIMARY KEY(id_usuario, seguindo_artistas),
-      FOREIGN KEY(id_usuario) REFERENCES Perfil_do_usuario(id),
-      FOREIGN KEY(seguindo_artistas) REFERENCES Artista(id)
+      FOREIGN KEY(id_usuario) REFERENCES Perfil_do_usuario(id_usuario),
+      FOREIGN KEY(seguindo_artistas) REFERENCES Artista(id_artista)
   ) engine = InnoDB;
   
-  INSERT INTO SpotifyClone.Artista (id, nome_artista)
+  INSERT INTO SpotifyClone.Artista (id_artista, nome_artista)
   VALUES
     (1,'Beyoncé'),
     (2,'Queen'),
@@ -66,14 +66,14 @@ DROP DATABASE IF EXISTS SpotifyClone;
     (5,'Blind Guardian'),
     (6,'Nina Simone');
 
-  INSERT INTO SpotifyClone.Plano (id, nome_plano, valor_plano)
+  INSERT INTO SpotifyClone.Plano (id_plano, nome_plano, valor_plano)
   VALUES
     (1,'gratuito',0.00),
     (2,'familiar',7.99),
     (3,'universitário',5.99),
     (4,'pessoal',6.99);
 
-  INSERT INTO SpotifyClone.Album (id, nome_album, id_artista, ano_lancamento)
+  INSERT INTO SpotifyClone.Album (id_album, nome_album, id_artista, ano_lancamento)
   VALUES
     (1,'Renaissance',1,2022),
     (2,'Jazz',2,1978),
@@ -84,7 +84,7 @@ DROP DATABASE IF EXISTS SpotifyClone;
     (7,'Somewhere Far Beyond',5,2007),
     (8,'I Put A Spell On You',6,2012);
 
-  INSERT INTO SpotifyClone.Cancoes (id, nome_cancao, duracao_segundos, id_album )
+  INSERT INTO SpotifyClone.Cancoes (id_cancoes, nome_cancao, duracao_segundos, id_album )
   VALUES
     (1,"BREAK MY SOUL",279,1),
     (2,"VIRGO’S GROOVE",369,1),
@@ -97,7 +97,7 @@ DROP DATABASE IF EXISTS SpotifyClone;
     (9,"The Bard’s Song",244,7),
     (10,"Feeling Good",100,8);
 
-  INSERT INTO SpotifyClone.Perfil_do_usuario (id, nome_usuario, idade, id_plano, data_assinatura )
+  INSERT INTO SpotifyClone.Perfil_do_usuario (id_usuario, nome_usuario, idade, id_plano, data_assinatura )
   VALUES
     (1,'Barbara Liskov',82,1,'2019-10-20'),
     (2,'Robert Cecil Martin',58,1,'2017-01-06'),
